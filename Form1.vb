@@ -8,9 +8,13 @@ Public Class Form1
         Next
     End Sub
     Sub ReadSerialPort()
-        Dim serialPort = My.Computer.Ports.OpenSerialPort(CB_Sports.Items(CB_Sports.SelectedIndex), CB_BAUD.Items(CB_BAUD.SelectedIndex))
-
+        Debug.WriteLine(CB_Sports.Items(CB_Sports.SelectedIndex).ToString())
+        CB_Sports.Items(CB_Sports.SelectedIndex).ToString()
+        Dim serialPort = My.Computer.Ports.OpenSerialPort(CB_Sports.SelectedItem, Int(CB_BAUD.SelectedItem))
+        serialPort.DataBits = Int(CB_Data_Bits.SelectedItem)
+        serialPort.StopBits = Int(CB_StopBits.SelectedItem)
         serialPort.WriteLine("TEST")
+        serialPort.Close()
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -22,7 +26,7 @@ Public Class Form1
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         If CB_Sports.SelectedIndex <> -1 And CB_BAUD.SelectedIndex <> -1 And CB_Data_Bits.SelectedIndex <> -1 And CB_StopBits.SelectedIndex <> -1 Then
-
+            ReadSerialPort()
         Else
             MsgBox("Invalid Parameters selected", MsgBoxStyle.OkOnly, "Parameter error.")
         End If
